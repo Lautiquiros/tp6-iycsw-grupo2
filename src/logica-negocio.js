@@ -24,7 +24,9 @@ export function horariosDisponibles(horarios,reservados,fecha,hoy) {
 export function validarReserva(datos,fecha,hora,hoy,libres) {
   const errors={};
   if (!String(datos.nombre??'').trim()) errors.nombre='Por favor completar los campos obligatorios';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(datos.email??'').trim())) errors.email='Debe ingresar un correo electrónico válido';
+  const emailStr = String(datos.email ?? '').trim();
+    if (!emailStr) {errors.email = 'Por favor completar los campos obligatorios';} 
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr)) {errors.email = 'Debe ingresar un correo electrónico válido';}
   if (!fecha || !hora || fecha<hoy || !libres.includes(hora)) errors.horario='Horario ya reservado o no disponible';
   return errors;
 }
